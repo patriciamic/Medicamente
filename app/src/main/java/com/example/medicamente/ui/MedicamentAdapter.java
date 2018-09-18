@@ -30,9 +30,14 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
         this.medicaments = new ArrayList<>();
     }
 
+
     public void setMedicaments(List<Medicament> medicaments) {
         this.medicaments.clear();
         this.medicaments.addAll(medicaments);
+    }
+
+    public List<Medicament> getMedicaments() {
+        return medicaments;
     }
 
     public void setListener(OnMedicamentClickListener listener) {
@@ -53,20 +58,18 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
     public void onBindViewHolder(@NonNull MedicamentViewHolder holder, int position) {
         final Medicament medicament = medicaments.get(position);
         holder.tvTitle.setText(medicament.getName());
-        holder.tvTime.setText(medicament.getTime());
+//        holder.tvTime.setText(medicament.getTime());
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onMedeicamentClick(medicament);
+
+                    listener.onMedicamentClick(medicament);
 
                 }
             }
-
         });
-
-
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,9 +109,24 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
         }
     }
 
+    public Medicament getMedicamentById(String idMed){
+        for(Medicament item: medicaments){
+            if(item.getIdMed().equals(idMed)){
+                return item;
+            }
+        }
+     return null;
+    }
+
+    public void updateMedicament(Medicament medicament, String idMed){
+        Medicament m = getMedicamentById(idMed);
+        m.setName(medicament.getName());
+//        m.setTime(medicament.getTime());
+    }
+
 
     public interface OnMedicamentClickListener {
-        void onMedeicamentClick(Medicament medicament);
+        void onMedicamentClick(Medicament medicament);
 
         void onMedicamentDeleteClick(Medicament medicament);
     }

@@ -1,85 +1,63 @@
 package com.example.medicamente.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.medicamente.R;
-import com.example.medicamente.data.MedicamentsRepository;
-import com.example.medicamente.entities.Medicament;
 
-public class MainActivity extends AppCompatActivity implements MedicamentAdapter.OnMedicamentClickListener, View.OnClickListener {
-    public static final int ADD_REQUEST_CODE = 123;
-    private RecyclerView rvMedicaments;
-    private MedicamentAdapter adapter;
-    private MedicamentsRepository medicamentsRepository;
+import com.example.medicamente.data.Storage;
+import com.example.medicamente.entities.Boala;
+import static com.example.medicamente.data.Constants.*;
+
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, BoalaAdapter.onBoalaClickListener {
+    private BoalaAdapter boalaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btn_add).setOnClickListener(this);
-        medicamentsRepository = new MedicamentsRepository();
         setupRecycleView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boalaAdapter.setBoli(Storage.getInstance().getBoli());
+        boalaAdapter.notifyDataSetChanged();
+    }
+
     private void setupRecycleView() {
-        rvMedicaments = findViewById(R.id.rv_notes);
+        RecyclerView rvBoli = findViewById(R.id.rv_notes);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rvMedicaments.setLayoutManager(layoutManager);
-
-
-        adapter = new MedicamentAdapter();
-        adapter.setListener(this);
-        rvMedicaments.setAdapter(adapter);
-        adapter.setMedicaments(medicamentsRepository.getMedicaments());
+        rvBoli.setLayoutManager(layoutManager);
+        boalaAdapter = new BoalaAdapter();
+        boalaAdapter.setListenerBoala(this);
+        rvBoli.setAdapter(boalaAdapter);
     }
 
-    @Override
-    public void onMedeicamentClick(Medicament medicament) {
-
-    }
-
-    @Override
-    public void onMedicamentDeleteClick(Medicament medicament) {
-        medicamentsRepository.delete(medicament);
-        adapter.removeMedicament(medicament);
-        adapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add:
-                Intent intent = new Intent(this, MedicamentActivity.class);
-                startActivityForResult(intent, ADD_REQUEST_CODE);
+                Intent intent = new Intent(this, BoalaActivity.class);
+                startActivity(intent);
 
                 break;
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == ADD_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String resultName = data.getStringExtra(MedicamentActivity.NAME);
-                String resultTime = data.getStringExtra(MedicamentActivity.TIME);
-                Medicament medicament = new Medicament(resultName, resultTime);
-                medicamentsRepository.add(medicament);
-                adapter.addMedicament(medicament);
-                adapter.notifyDataSetChanged();
-
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "canceled", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public void onBoalaClick(Boala boala) {
+        Intent intent = new Intent(this, BoalaActivity.class);
+        intent.putExtra(ID_BOALA, boala.getId());
+        startActivity(intent);
     }
 }
 

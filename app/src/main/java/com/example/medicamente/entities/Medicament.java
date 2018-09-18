@@ -2,11 +2,18 @@ package com.example.medicamente.entities;
 
 public class Medicament {
     private String name;
-    private String time;
+    private String idMed;
 
-    public Medicament(String name, String time) {
+    public Medicament(String name) {
         this.name = name;
-        this.time = time;
+    }
+
+    public String getIdMed() {
+        return idMed;
+    }
+
+    public void setIdMed(String idMed) {
+        this.idMed = idMed;
     }
 
     public String getName() {
@@ -17,13 +24,6 @@ public class Medicament {
         this.name = name;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -35,7 +35,7 @@ public class Medicament {
             return false;
         }
 
-       Medicament m = (Medicament) obj;
+        Medicament m = (Medicament) obj;
 
         return this.name.equalsIgnoreCase(m.name);
     }
