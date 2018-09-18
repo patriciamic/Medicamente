@@ -28,7 +28,7 @@
         android:textColor="@android:color/white" />
 
     <EditText
-        android:id="@+id/et_medicamentDialog"
+        android:id="@+id/et_medicament_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_label_medicament"
@@ -40,7 +40,7 @@
         android:id="@+id/tv_interval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_medicamentDialog"
+        android:layout_below="@id/et_medicament_name"
         android:layout_marginTop="10dp"
         android:text="Administrare"
         android:textColor="@android:color/white"
@@ -60,10 +60,90 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_label_medicament" />
+        android:layout_below="@+id/spinner" />
+
+    <TextView
+        android:id="@+id/tv_label_program"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rv_hours"
+        android:layout_marginTop="20dp"
+        android:text="Program"
+        android:textColor="@android:color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/tv_data_inceput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_label_program"
+        android:layout_marginTop="10dp"
+        android:text="Data de inceput: "
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tv_start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today, 18 sept"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_below="@+id/tv_label_program"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/tv_data_inceput"
+        android:layout_toRightOf="@+id/tv_data_inceput"
+        android:layout_marginLeft="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Durata:"
+        android:id="@+id/tv_durata"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/tv_data_inceput"
+        android:layout_marginTop="10dp"
+        />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/rg_durata"
+        android:layout_below="@+id/tv_durata"
+        android:layout_marginTop="20dp">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuu"
+            android:textColor="@android:color/white"
+            android:id="@+id/rb_continuu"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Numar de zile"
+            android:textColor="@android:color/white"
+            android:id="@+id/rb_numar_zile"
+            android:layout_marginLeft="30dp"
+            />
+
+    </RadioGroup>
+
 
     <Button
         android:id="@+id/btn_saveMedDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/buttonshape"
+        android:text="Save"
+        android:textColor="@android:color/white" />
+
+
+
+    <Button
+        android:id="@+id/btn_save_med_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
