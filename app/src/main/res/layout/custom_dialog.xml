@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
@@ -52,15 +53,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_interval"
         android:layout_marginTop="10dp"
-        android:prompt="@string/app_name" />
+        android:prompt="@string/app_name"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_hours"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner" />
+        android:layout_below="@+id/spinner"
+        android:scrollbars="vertical"/>
 
     <TextView
         android:id="@+id/tv_label_program"
@@ -85,61 +88,59 @@
         android:id="@+id/tv_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Today, 18 sept"
-        android:textColor="@android:color/holo_blue_light"
         android:layout_below="@+id/tv_label_program"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/tv_data_inceput"
         android:layout_toRightOf="@+id/tv_data_inceput"
-        android:layout_marginLeft="5dp"
-        />
+        android:text="Today, 18 sept"
+        android:textColor="@android:color/holo_blue_light" />
 
     <TextView
+        android:id="@+id/tv_durata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Durata:"
-        android:id="@+id/tv_durata"
-        android:textColor="@android:color/white"
         android:layout_below="@+id/tv_data_inceput"
         android:layout_marginTop="10dp"
-        />
+        android:text="Durata:"
+        android:textColor="@android:color/white" />
 
     <RadioGroup
+        android:id="@+id/rg_durata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/rg_durata"
         android:layout_below="@+id/tv_durata"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
         <RadioButton
+            android:id="@+id/rb_continuu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Continuu"
-            android:textColor="@android:color/white"
-            android:id="@+id/rb_continuu"
-            />
+            android:textColor="@android:color/white" />
+
         <RadioButton
+            android:id="@+id/rb_numar_zile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Numar de zile"
-            android:textColor="@android:color/white"
-            android:id="@+id/rb_numar_zile"
             android:layout_marginLeft="30dp"
-            />
+            android:text="Numar de zile"
+            android:textColor="@android:color/white" />
 
     </RadioGroup>
 
-
-    <Button
-        android:id="@+id/btn_saveMedDialog"
+    <EditText
+        android:id="@+id/et_numar_zile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/buttonshape"
-        android:text="Save"
-        android:textColor="@android:color/white" />
-
+        android:layout_below="@+id/rg_durata"
+        android:hint="numar zile"
+        android:layout_alignParentRight="true"
+        android:inputType="number"
+        android:textSize="25dp"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_alignParentEnd="true" />
 
 
     <Button

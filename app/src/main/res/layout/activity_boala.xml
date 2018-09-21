@@ -88,7 +88,8 @@
         android:paddingTop="15dp"
         android:paddingBottom="80dp"
         android:paddingLeft="20dp"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        android:scrollbars="vertical"/>
 
 
     <android.support.design.widget.FloatingActionButton

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.medicamente.R;
 
@@ -14,7 +15,7 @@ import com.example.medicamente.entities.Boala;
 import static com.example.medicamente.data.Constants.*;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, BoalaAdapter.onBoalaClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, BoalaAdapter.onBoalaClickListener, CustomDialogDeleteBoala.YesListener {
     private BoalaAdapter boalaAdapter;
 
     @Override
@@ -58,6 +59,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, BoalaActivity.class);
         intent.putExtra(ID_BOALA, boala.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onBoalaDelete(Boala boala) {
+
+        CustomDialogDeleteBoala cddb = new CustomDialogDeleteBoala(this);
+        cddb.setListener(this);
+        cddb.setBoala(boala);
+        cddb.show();
+
+    }
+
+    @Override
+    public void onYesClicked(String result, Boala boala) {
+        if(result.equals("yes")){
+            Storage.getInstance().removeBoala(boala);
+            boalaAdapter.removeBoala(boala);
+            boalaAdapter.notifyDataSetChanged();
+            Toast.makeText(this, boala.getNumeBoala(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

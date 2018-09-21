@@ -59,6 +59,15 @@ public class BoalaAdapter extends RecyclerView.Adapter<BoalaAdapter.BoalaViewHol
             }
         });
 
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listenerBoala != null) {
+                    listenerBoala.onBoalaDelete(boala);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -70,21 +79,24 @@ public class BoalaAdapter extends RecyclerView.Adapter<BoalaAdapter.BoalaViewHol
     public void addBoala(Boala boala) {
         boalaList.add(boala);
     }
+    public void removeBoala(Boala boala){boalaList.remove(boala);}
 
 
     class BoalaViewHolder extends RecyclerView.ViewHolder {
         private TextView tvBoala;
         private RelativeLayout rlBoliContainer;
-
+        private Button btnDelete;
         public BoalaViewHolder(View itemView) {
             super(itemView);
             tvBoala = itemView.findViewById(R.id.tv_boala);
             rlBoliContainer = itemView.findViewById(R.id.rv_boala_container);
+            btnDelete = itemView.findViewById(R.id.btn_delete_boala);
         }
     }
 
 
     public interface onBoalaClickListener {
         void onBoalaClick(Boala boala);
+        void onBoalaDelete(Boala boala);
     }
 }
