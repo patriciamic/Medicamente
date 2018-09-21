@@ -123,7 +123,6 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
         }
 
 
-
         setupSpinner();
 
         switch (mode) {
@@ -237,10 +236,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
                 }
                 break;
             case R.id.tv_start_date:
-                // datePickerDialog.show();
                 onDateClick();
-
-
                 break;
 
         }
@@ -317,7 +313,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
     @Override
     public void onHourClicked(Hour hour) {
         Toast.makeText(activity, hour.getId() + " clicked", Toast.LENGTH_SHORT).show();
-        onTimeClicked();
+        onTimeClicked(hour);
     }
 
 
@@ -333,7 +329,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
         UPDATE
     }
 
-    private void onTimeClicked() {
+    private void onTimeClicked(Hour myHour) {
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
@@ -350,7 +346,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
     private void onTimeSelected(TimePicker timePicker, int selectedHour, int selectedMinute) {
         //tvTime.setText(selectedHour + ":" + selectedMinute);
         timeSelected = selectedHour + ":" + selectedMinute;
-
+        Log.e("EEEEEE", timeSelected);
         Calendar calendar = getCalendar(timePicker, selectedHour, selectedMinute);
         // setAlarm(calendar.getTimeInMillis());
     }
