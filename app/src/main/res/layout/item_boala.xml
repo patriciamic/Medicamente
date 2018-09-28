@@ -13,7 +13,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:id="@+id/btn_delete_boala"
@@ -24,7 +25,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/delete_circle" />
+        android:background="@drawable/delete_circle_white" />
 
 
 </RelativeLayout>

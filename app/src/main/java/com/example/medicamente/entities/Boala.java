@@ -47,11 +47,12 @@ public class Boala {
     }
 
     public void addMedicament(Medicament medicament) {
+        medicament.setIdMed(medicamentList.size() + "");
         medicamentList.add(medicament);
     }
 
     public void removeMedicament(Medicament medicament) {
-        medicamentList.add(medicament);
+        medicamentList.remove(medicament);
     }
 
     @Override

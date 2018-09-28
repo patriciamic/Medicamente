@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Storage.getInstance().removeBoala(boala);
             boalaAdapter.removeBoala(boala);
             boalaAdapter.notifyDataSetChanged();
-            Toast.makeText(this, boala.getNumeBoala(), Toast.LENGTH_SHORT).show();
         }
     }
 }

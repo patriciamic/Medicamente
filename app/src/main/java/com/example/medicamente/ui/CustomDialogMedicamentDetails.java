@@ -57,6 +57,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TextView tvStartDate;
+    private boolean listmode = true;
 
     public CustomDialogMedicamentDetails(Context context, Medicament medicament) {
         super(context);
@@ -74,18 +75,25 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog);
-
+        listmode = true;
         setupViews();
         setDateListener();
 
     }
 
     private void setCurrentDate() {
+        String dateSaved = getCurrentDate();
+        tvStartDate.setText(dateSaved);
+
+    }
+
+    @NonNull
+    private String getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        tvStartDate.setText(day + "." + month + "." + year);
+        return day + "/ " + month + " /" + year;
     }
 
     private void setDateListener() {
@@ -95,7 +103,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
                 month += 1;
                 String dateSaved = day + "/ " + month + " /" + year;
                 tvStartDate.setText(dateSaved);
-                medicament.setDate(dateSaved);
+                // medicament.setDate(dateSaved);
 
             }
         };
@@ -113,6 +121,7 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
         tvStartDate = findViewById(R.id.tv_start_date);
         tvStartDate.setOnClickListener(this);
 
+        setupSpinner();
         setupRvHours();
 
         findViewById(R.id.btn_save_med_dialog).setOnClickListener(this);
@@ -122,31 +131,34 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
             hourAdapter.setList(medicament.getHours());
         }
 
-
-        setupSpinner();
-
         switch (mode) {
             case UPDATE:
-                spinner.setSelection(medicament.getIntervalZi() - 1);
-                hourAdapter.setList(medicament.getHours());
-                hourAdapter.notifyDataSetChanged();
-                if (medicament.getNrZile() != 0) {
-                    rbNrZile.setChecked(true);
-                    etNumarZile.setVisibility(View.VISIBLE);
-                    etNumarZile.setText(medicament.getNrZile() + "");
-
-                } else {
-                    rbContinuu.setChecked(true);
-                }
-                tvStartDate.setText(medicament.getDate());
+                setViewOnUpdate();
                 break;
-            default:
+            case SAVE:
                 setCurrentDate();
                 break;
 
 
         }
 
+    }
+
+    private void setViewOnUpdate() {
+        listmode = false;
+        spinner.setSelection(medicament.getIntervalZi() - 1);
+
+        hourAdapter.setList(medicament.getHours());
+        hourAdapter.notifyDataSetChanged();
+        if (medicament.getNrZile() != 0) {
+            rbNrZile.setChecked(true);
+            etNumarZile.setVisibility(View.VISIBLE);
+            etNumarZile.setText(medicament.getNrZile() + "");
+
+        } else {
+            rbContinuu.setChecked(true);
+        }
+        tvStartDate.setText(medicament.getDate());
 
     }
 
@@ -177,19 +189,26 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String item = adapterView.getItemAtPosition(i).toString();
         intervalZi = i + 1;
-        setIntervalOfHours(i);
+        if (listmode) {
+            setIntervalOfHours(i);
+        }
 
+        if (!listmode) {
+            listmode = true;
+        }
 
         if (medicament == null) {
             medicament = new Medicament(etMedicamentName.getText().toString());
+            medicament.setDate(getCurrentDate());
         }
 
         hourAdapter.notifyDataSetChanged();
+
     }
 
     private void setIntervalOfHours(int i) {
+
         hourAdapter.clearList();
         int idHour = 0;
         int inceput = 6;
@@ -226,14 +245,10 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
                 onSaveClicked();
                 break;
             case R.id.rb_continuu:
-                if (rbContinuu.isChecked()) {
-                    etNumarZile.setVisibility(View.INVISIBLE);
-                }
+                setFirstRadioButton(rbContinuu.isChecked(), View.INVISIBLE);
                 break;
             case R.id.rb_numar_zile:
-                if (rbNrZile.isChecked()) {
-                    etNumarZile.setVisibility(View.VISIBLE);
-                }
+                setSecondRadioButton(rbNrZile.isChecked(), View.VISIBLE);
                 break;
             case R.id.tv_start_date:
                 onDateClick();
@@ -241,6 +256,16 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
 
         }
 
+    }
+
+    private void setSecondRadioButton(boolean checked, int visible) {
+        if (checked) {
+            etNumarZile.setVisibility(visible);
+        }
+    }
+
+    private void setFirstRadioButton(boolean checked, int invisible) {
+        setSecondRadioButton(checked, invisible);
     }
 
     private void onDateClick() {
@@ -294,11 +319,21 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
     }
 
     private void updateMed() {
+        medicament.setHours(hourAdapter.getList());
         listener.onMedUpdated(medicament);
+
     }
 
     private void saveNewMed() {
+        medicament.setHours(hourAdapter.getList());
+        //logHourAdapterList();
         listener.onMedSaved(medicament);
+    }
+
+    private void logHourAdapterList() {
+        for (Hour hour : hourAdapter.getList()) {
+            Log.e("AAAAAAAAAAAA", hour.getNume());
+        }
     }
 
     private boolean checkEmptyString(String name) {
@@ -335,18 +370,17 @@ public class CustomDialogMedicamentDetails extends Dialog implements AdapterView
         int minute = mcurrentTime.get(Calendar.MINUTE);
 
         TimePickerDialog mTimePicker = new TimePickerDialog(
-                getContext(),
-                this::onTimeSelected,
-                hour, minute, true);
+                getContext(), (timePicker, selectedHour, selectedMinute) -> onTimeSelected(timePicker, selectedHour, selectedMinute, myHour), hour, minute, true);
 
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
     }
 
-    private void onTimeSelected(TimePicker timePicker, int selectedHour, int selectedMinute) {
-        //tvTime.setText(selectedHour + ":" + selectedMinute);
+    private void onTimeSelected(TimePicker timePicker, int selectedHour, int selectedMinute, Hour myHour) {
         timeSelected = selectedHour + ":" + selectedMinute;
-        Log.e("EEEEEE", timeSelected);
+        myHour.setNume(timeSelected);
+        hourAdapter.updateHour(myHour);
+        hourAdapter.notifyDataSetChanged();
         Calendar calendar = getCalendar(timePicker, selectedHour, selectedMinute);
         // setAlarm(calendar.getTimeInMillis());
     }

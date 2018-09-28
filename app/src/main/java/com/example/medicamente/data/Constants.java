@@ -4,8 +4,8 @@ public class Constants {
 
 
     public static final String CHANNEL_ID = "my chanel id";
-    public static final String NOTIFICATION_TITLE = "get your pills";
-    public static final String NOTIF_CONTENT = "BLA BLA BLA\nBLA BLA BLA\nBLA BLA BLA";
+    public static final String NOTIFICATION_TITLE = "Este timpul sa iti iei medicamentele";
+    public static final String NOTIF_CONTENT = "";
     public static final int NOTIF_ID = 667;
 
 

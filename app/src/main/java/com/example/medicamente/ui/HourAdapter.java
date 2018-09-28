@@ -13,6 +13,7 @@ import com.example.medicamente.R;
 import com.example.medicamente.entities.Hour;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
@@ -59,6 +60,21 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
 
     public void setListener(OnHourClickListener listener) {
         this.listener = listener;
+    }
+
+
+    public Hour getHourById(String idHour){
+        for(Hour hour : hours){
+            if(hour.getId().equals(idHour)){
+                return hour;
+            }
+        }
+        return null;
+    }
+
+    public void updateHour(Hour myHour) {
+        Hour mHour = getHourById(myHour.getId());
+        mHour.setNume(myHour.getNume());
     }
 
     class HourViewHolder extends RecyclerView.ViewHolder {

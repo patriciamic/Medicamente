@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#28345c"
     tools:context=".ui.MainActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -11,17 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_add"
+
         />
 
     <Button
+        android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/buttonshape_white"
         android:text="Add"
-        android:id="@+id/btn_add"
-        android:background="@drawable/buttonshape"/>
+        android:textColor="@android:color/white"/>
 
 
 </RelativeLayout>

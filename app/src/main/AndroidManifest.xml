@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.medicamente">
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -21,10 +23,10 @@
         <receiver
             android:name=".AlarmBroadcastReceiver"
             android:enabled="true"
-            android:exported="true"
-             />
+            android:exported="true" />
 
         <activity android:name=".ui.BoalaActivity" />
+        <activity android:name=".AlarmActivity"></activity>
     </application>
 
 </manifest>

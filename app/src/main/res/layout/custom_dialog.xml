@@ -53,23 +53,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_interval"
         android:layout_marginTop="10dp"
-        android:prompt="@string/app_name"
-        />
+        android:prompt="@string/app_name" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_hours"
+    <RelativeLayout
+        android:id="@+id/rl_rv_meds"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/spinner"
-        android:scrollbars="vertical"/>
+        android:background="#25336c">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_hours"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_label_program"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rv_hours"
+        android:layout_below="@+id/rl_rv_meds"
         android:layout_marginTop="20dp"
         android:text="Program"
         android:textColor="@android:color/white"
@@ -134,13 +140,13 @@
         android:id="@+id/et_numar_zile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/rg_durata"
         android:hint="numar zile"
-        android:layout_alignParentRight="true"
         android:inputType="number"
-        android:textSize="25dp"
         android:textColor="@android:color/holo_blue_light"
-        android:layout_alignParentEnd="true" />
+        android:textSize="25dp" />
 
 
     <Button

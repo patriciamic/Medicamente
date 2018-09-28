@@ -1,34 +1,48 @@
 package com.example.medicamente.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.medicamente.AlarmBroadcastReceiver;
 import com.example.medicamente.R;
 import com.example.medicamente.data.Storage;
 import com.example.medicamente.entities.Boala;
+import com.example.medicamente.entities.Hour;
 import com.example.medicamente.entities.Medicament;
+
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.example.medicamente.data.Constants.ID_BOALA;
 
 public class BoalaActivity extends AppCompatActivity implements View.OnClickListener, MedicamentAdapter.OnMedicamentClickListener, CustomDialogMedicamentDetails.MedSaveListener {
 
+    public static final String MED_NAME = "medName";
     private Button save;
     private Button update;
     private EditText etNumeBoala;
 
     private MedicamentAdapter medicamentAdapter;
 
-    private int idMedicament;
-    public Boala boala;
+    private Boala boala;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +57,10 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
     private void setupViews() {
         save = findViewById(R.id.btn_save);
         save.setOnClickListener(this);
+
         update = findViewById(R.id.btn_update);
         update.setOnClickListener(this);
+
         FloatingActionButton addMed = findViewById(R.id.fab_add_med);
         addMed.setOnClickListener(this);
         etNumeBoala = findViewById(R.id.et_nume_boala);
@@ -103,8 +119,8 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void addNewMed(Medicament medicament) {
-        idMedicament++;
-        medicament.setIdMed(idMedicament + "");
+//        idMedicament++;
+//        medicament.setIdMed(idMedicament + "");
         boala.addMedicament(medicament);
         medicamentAdapter.addMedicament(medicament);
         medicamentAdapter.notifyDataSetChanged();
@@ -115,6 +131,9 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
         boala.setNumeBoala(numeBoala);
         boala.setMedicamentList(medicamentAdapter.getMedicaments());
         Storage.getInstance().updateBoala(boala);
+
+        setupAlarm();
+
         finish();
     }
 
@@ -127,8 +146,52 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
         boala.setMedicamentList(medicamentAdapter.getMedicaments());
         boala.setNumeBoala(numeBoala);
         Storage.getInstance().addBoala(boala);
+
+        setupAlarm();
+
         finish();
     }
+
+    private void setupAlarm() {
+        List<Medicament> meds = boala.getMedicamentList();
+        for (Medicament med : meds) {
+            List<Hour> hours = med.getHours();
+            for (Hour itemHour : hours) {
+                setAlarm(itemHour, med);
+            }
+        }
+    }
+
+    private void setAlarm(Hour hour, Medicament med) {
+        //Toast.makeText(this, "e aici", Toast.LENGTH_SHORT).show();
+
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent i = new Intent(this, AlarmBroadcastReceiver.class);
+        i.putExtra(MED_NAME, med.getName());
+        //PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        if (am != null) {
+
+
+            String hourString = hour.getNume();
+            String[] parts = hourString.split(":");
+            int timeHour = Integer.parseInt(parts[0]);
+            int timeMinute = Integer.parseInt(parts[1]);
+            Calendar calendar = Calendar.getInstance();
+
+            Calendar setcalendar = Calendar.getInstance();
+            setcalendar.set(Calendar.HOUR_OF_DAY, timeHour);
+            setcalendar.set(Calendar.MINUTE, timeMinute);
+            setcalendar.set(Calendar.SECOND, 0);
+
+            if(setcalendar.before(calendar))
+                setcalendar.add(Calendar.DATE,1);
+
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis() , AlarmManager.INTERVAL_DAY, pi);
+        }
+    }
+
 
     @Override
     public void onMedicamentClick(Medicament medicament) {
@@ -146,6 +209,7 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onMedSaved(Medicament medicament) {
         addNewMed(medicament);
+
     }
 
     @Override
