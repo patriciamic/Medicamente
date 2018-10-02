@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.medicamente.ui.MainActivity;
 
 import static com.example.medicamente.data.Constants.*;
+import static com.example.medicamente.ui.BoalaActivity.BOALA_ID;
 import static com.example.medicamente.ui.BoalaActivity.MED_ID;
 import static com.example.medicamente.ui.BoalaActivity.MED_NAME;
 
@@ -32,11 +33,12 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
             Toast.makeText(context, "ALARM !!!", Toast.LENGTH_LONG).show();
             String medId = intent.getStringExtra(MED_ID);
-            Log.e("AAAAAAAAA", medId);
+            String boalaId = intent.getStringExtra(BOALA_ID);
             Intent i = new Intent(context, AlarmActivity.class);
             Intent intentNotification = new Intent(context, MainActivity.class);
             //context.startActivity(new Intent(context, AlarmActivity.class));
             i.putExtra(MED_ID, medId);
+            i.putExtra(BOALA_ID, boalaId);
 
             context.startActivity(i);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

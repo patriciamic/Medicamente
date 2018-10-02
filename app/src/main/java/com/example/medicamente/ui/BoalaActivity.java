@@ -152,7 +152,6 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
     private void setupAlarm() {
         List<Medicament> meds = boala.getMedicamentList();
         for (Medicament med : meds) {
-            Log.e("MEEEEEED", med.getIdMed());
             List<Hour> hours = med.getHours();
             for (Hour itemHour : hours) {
                 setAlarm(itemHour, med, boala);
@@ -168,10 +167,9 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
         Intent i = new Intent(this, AlarmBroadcastReceiver.class);
         i.putExtra(BOALA_ID, boala.getId());
         i.putExtra(MED_ID, med.getIdMed());
-           // i.putExtra(MED_NAME, med.getName() );
-            Log.e("MEEEEEEDSETALARM", med.getIdMed());
-        //PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+        final int _id = (int) System.currentTimeMillis();
+        PendingIntent pi = PendingIntent.getBroadcast(this, _id, i, PendingIntent.FLAG_ONE_SHOT);
 
 
         if (am != null) {

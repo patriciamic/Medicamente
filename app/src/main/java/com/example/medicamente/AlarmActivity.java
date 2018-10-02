@@ -13,10 +13,10 @@ import com.example.medicamente.data.Storage;
 import com.example.medicamente.entities.Boala;
 import com.example.medicamente.entities.Medicament;
 
-//import static com.example.medicamente.AlarmBroadcastReceiver.BOALA_ID_ALARM;
-//import static com.example.medicamente.AlarmBroadcastReceiver.MED_ID_ALARM;
-//import static com.example.medicamente.ui.BoalaActivity.BOALA_ID;
-//import static com.example.medicamente.ui.BoalaActivity.MED_ID;
+import static com.example.medicamente.ui.BoalaActivity.BOALA_ID;
+import static com.example.medicamente.ui.BoalaActivity.MED_ID;
+
+
 
 public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvMedName;
@@ -32,12 +32,11 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         btnOk = findViewById(R.id.btn_ok_alarm);
         btnOk.setOnClickListener(this);
         Intent intent = getIntent();
-//        boalaId = intent.getStringExtra(BOALA_ID_ALARM);
-//        medId = intent.getStringExtra(MED_ID_ALARM);
-//        Boala mBoala = Storage.getInstance().getBoala(boalaId);
-//        Medicament mMed = mBoala.getMedicamentById(medId);
-//        Log.e("ALAAARM:", medId);
-//        tvMedName.setText(mMed.getName());
+        boalaId = intent.getStringExtra(BOALA_ID);
+        medId = intent.getStringExtra(MED_ID);
+        Boala mBoala = Storage.getInstance().getBoala(boalaId);
+        Medicament mMed = mBoala.getMedicamentById(medId);
+        tvMedName.setText(mMed.getName());
     }
 
     @Override
