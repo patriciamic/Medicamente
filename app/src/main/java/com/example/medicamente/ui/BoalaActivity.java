@@ -5,12 +5,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,16 +23,15 @@ import com.example.medicamente.entities.Hour;
 import com.example.medicamente.entities.Medicament;
 
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static com.example.medicamente.data.Constants.ID_BOALA;
 
 public class BoalaActivity extends AppCompatActivity implements View.OnClickListener, MedicamentAdapter.OnMedicamentClickListener, CustomDialogMedicamentDetails.MedSaveListener {
 
+    public static final String MED_ID = "medId";
+    public static final String BOALA_ID = "boalaId";
     public static final String MED_NAME = "medName";
     private Button save;
     private Button update;
@@ -155,25 +152,29 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
     private void setupAlarm() {
         List<Medicament> meds = boala.getMedicamentList();
         for (Medicament med : meds) {
+            Log.e("MEEEEEED", med.getIdMed());
             List<Hour> hours = med.getHours();
             for (Hour itemHour : hours) {
-                setAlarm(itemHour, med);
+                setAlarm(itemHour, med, boala);
             }
         }
     }
 
-    private void setAlarm(Hour hour, Medicament med) {
+    private void setAlarm(Hour hour, Medicament med, Boala boala) {
         //Toast.makeText(this, "e aici", Toast.LENGTH_SHORT).show();
 
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Intent i = new Intent(this, AlarmBroadcastReceiver.class);
-        i.putExtra(MED_NAME, med.getName());
+        i.putExtra(BOALA_ID, boala.getId());
+        i.putExtra(MED_ID, med.getIdMed());
+           // i.putExtra(MED_NAME, med.getName() );
+            Log.e("MEEEEEEDSETALARM", med.getIdMed());
         //PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+
         if (am != null) {
-
-
             String hourString = hour.getNume();
             String[] parts = hourString.split(":");
             int timeHour = Integer.parseInt(parts[0]);
@@ -185,10 +186,10 @@ public class BoalaActivity extends AppCompatActivity implements View.OnClickList
             setcalendar.set(Calendar.MINUTE, timeMinute);
             setcalendar.set(Calendar.SECOND, 0);
 
-            if(setcalendar.before(calendar))
-                setcalendar.add(Calendar.DATE,1);
+            if (setcalendar.before(calendar))
+                setcalendar.add(Calendar.DATE, 1);
 
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis() , AlarmManager.INTERVAL_DAY, pi);
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
         }
     }
 

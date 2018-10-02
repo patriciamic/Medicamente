@@ -9,12 +9,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.example.medicamente.ui.BoalaActivity.MED_NAME;
+import com.example.medicamente.data.Storage;
+import com.example.medicamente.entities.Boala;
+import com.example.medicamente.entities.Medicament;
+
+//import static com.example.medicamente.AlarmBroadcastReceiver.BOALA_ID_ALARM;
+//import static com.example.medicamente.AlarmBroadcastReceiver.MED_ID_ALARM;
+//import static com.example.medicamente.ui.BoalaActivity.BOALA_ID;
+//import static com.example.medicamente.ui.BoalaActivity.MED_ID;
 
 public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvMedName;
-    private String medName;
+    private String medId;
     private Button btnOk;
+    private String boalaId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,14 +32,17 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         btnOk = findViewById(R.id.btn_ok_alarm);
         btnOk.setOnClickListener(this);
         Intent intent = getIntent();
-        medName = intent.getStringExtra(MED_NAME);
-        Log.e("ALAAARM:", medName);
-        tvMedName.setText(medName);
+//        boalaId = intent.getStringExtra(BOALA_ID_ALARM);
+//        medId = intent.getStringExtra(MED_ID_ALARM);
+//        Boala mBoala = Storage.getInstance().getBoala(boalaId);
+//        Medicament mMed = mBoala.getMedicamentById(medId);
+//        Log.e("ALAAARM:", medId);
+//        tvMedName.setText(mMed.getName());
     }
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.btn_ok_alarm:
                 Toast.makeText(this, "Medicament luat.", Toast.LENGTH_SHORT).show();
                 finish();

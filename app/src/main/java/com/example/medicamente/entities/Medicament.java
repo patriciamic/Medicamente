@@ -64,6 +64,7 @@ public class Medicament {
         this.date = date;
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

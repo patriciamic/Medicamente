@@ -47,8 +47,17 @@ public class Boala {
     }
 
     public void addMedicament(Medicament medicament) {
-        medicament.setIdMed(medicamentList.size() + "");
+        medicament.setIdMed("id" + medicamentList.size() + "");
         medicamentList.add(medicament);
+    }
+
+    public Medicament getMedicamentById(String idMed) {
+        for (Medicament item : medicamentList) {
+            if (item.getIdMed().equals(idMed)) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public void removeMedicament(Medicament medicament) {
